@@ -7,20 +7,25 @@ class CourseScreen extends StatefulWidget {
 }
 
 class _CourseScreenState extends State<CourseScreen> {
+  Map mData = {};
+  Course mCourse;
   @override
   Widget build(BuildContext context) {
-    Course mCourse = ModalRoute.of(context).settings.arguments;
+    mData = ModalRoute.of(context).settings.arguments;
+    mCourse = mData['course'];
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Text(mCourse.firstLine()),
-          Text(mCourse.secondLine()),
-          Text(mCourse.thirdLine()),
-          Text(mCourse.fourthLine()),
-          Text(mCourse.fifthLine()),
-          Text(mCourse.sixthLine()),
-        ],
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Text(mCourse.firstLine()),
+            Text(mCourse.secondLine()),
+            Text(mCourse.thirdLine()),
+            Text(mCourse.fourthLine()),
+            Text(mCourse.fifthLine()),
+            Text(mCourse.sixthLine()),
+          ],
+        ),
       ),
     );
   }
