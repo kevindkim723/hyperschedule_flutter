@@ -14,21 +14,22 @@ class Course {
   var courseTerm;
   var courseSortKey;
 
-  //constructor for the Course Class that takes in a Json-formatted Map object "courseJson" with this specific course object
+  ///constructor for the Course Class that takes in a Json-formatted Map object [courseJson] with this specific course object
+  /// [courseJson] must be the proper sub-JsonMap in the sense that courseJson[courseTime],courseJson[courseName],... can be called without errors
   Course(Map courseJSON) {
     this.courseJSON = courseJSON;
     feed();
   }
 
-  //updates the JSON map and the instance variables of this course from a Map "courseJSON" with all Json objects
-  update(Map listCourses) {
-    this.courseJSON = listCourses[courseSortKey];
+  ///input: a map [listCourses] equivalent to rootJson['data']['courses']
+  ///output: updates the JsonMap of the current Course so that its fields like [courseDescription] and [courseStatus] are up-to-date
+  update(Map courseListJSON) {
+    this.courseJSON = courseListJSON[courseSortKey];
   }
 
-  //helper method that updates all course information instance variables
-  //through fetching information from [courseJSON] instance variable.
+  ///helper method that updates all course information instance variables
+  ///through fetching information from [courseJSON] instance variable.
   feed() {
-    print("FEEDD");
     courseSortKey = courseJSON['courseSortKey'].first;
     courseCode = courseJSON['courseCode'];
     courseName = courseJSON['courseName'];
@@ -48,8 +49,8 @@ class Course {
       courseTime = scheduleJSON['scheduleStartTime'].toString() +
           " - " +
           scheduleJSON['scheduleEndTime'].toString();
-      print("has been tried");
     } catch (e) {
+      print("*" * 100);
       print("error on course: " + courseCode);
       courseDays = "null";
       courseLocation = "null";
@@ -58,8 +59,8 @@ class Course {
     print(courseDays);
   }
 
-  //firstLine() ... sixthLine() provides strings of what is to be shown when
-  //user taps on the course
+  ///firstLine() ... sixthLine() provides strings of what is to be shown when
+  ///user taps on the course
   String firstLine() => courseCode + " " + courseName;
 
   String secondLine() =>
