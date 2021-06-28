@@ -34,14 +34,11 @@ class _LoadingScreenState extends State<LoadingScreen> {
     http.Response response = await http.get(Uri.parse(
         'https://hyperschedule.herokuapp.com/api/v3/courses?school=hmc'));
     Map json = await jsonDecode(response.body);
-    debugPrint(json.toString());
     Map courseListJSON = json['data']['courses'];
 
-    debugPrint(courseListJSON['AFRI010A AF-01 FA2021']['courseInstructors'][0]
-        .toString());
     List<Course> listCourses = JSONToList(courseListJSON);
     Navigator.pushReplacementNamed(context, '/home',
-        arguments: {'listCourses': courseListJSON});
+        arguments: {'listCourses': JSONToList(courseListJSON)});
   }
 
   List<Course> JSONToList(Map courseListJSON) {

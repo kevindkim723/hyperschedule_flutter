@@ -56,7 +56,6 @@ class Course {
       courseLocation = "null";
       courseTime = "null";
     }
-    print(courseDays);
   }
 
   ///firstLine() ... sixthLine() provides strings of what is to be shown when

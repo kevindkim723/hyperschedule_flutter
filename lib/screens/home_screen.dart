@@ -22,18 +22,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    mData = ModalRoute
-        .of(context)
-        .settings
-        .arguments;
-    //listCourses = data['listCourses'];
-    //mFilteredCourses = mListCourses;
+    mData = ModalRoute.of(context).settings.arguments;
+    mListCourses = mData['listCourses'];
+    mFilteredCourses = mListCourses;
 
     return Scaffold(
       appBar: AppBar(
         title: TextField(
           controller: mListFilter,
-          obscureText: true,
           decoration: InputDecoration(
             border: OutlineInputBorder(),
             labelText: "Search for courses...",
@@ -41,38 +37,52 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       backgroundColor: Colors.grey[200],
-      body: ListView.builder(
-          itemCount: mListCourses.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
-              child: Card(
-                child: ListTile(
-                  onTap: () {},
-                ),
-              ),
-            );
-          }),
+      body: Container(
+        child: buildList(),
+      ),
     );
   }
 
   void setUpListFilterListener() {
     mListFilter.addListener(() {
       if (mListFilter.text.isEmpty) {
-        mSearchText = "";
-        mFilteredCourses = mListCourses;
+        setState(() {
+          mSearchText = "";
+          mFilteredCourses = mListCourses;
+        });
       } else {
-        mSearchText = mListFilter.text;
+        setState(() {
+          mSearchText = mListFilter.text;
+        });
       }
     });
   }
 
   Widget buildList() {
     if (mSearchText.isNotEmpty) {
-      List<Course> mTempList = [];
-      mFilteredCourses.forEach((element) {
-        if })
+      List<Course> mTempList = new List<Course>.from(mFilteredCourses);
+      for (Course c in mFilteredCourses) {
+        if (!containsKeyword(c, mSearchText)) {
+          mTempList.remove(c);
+        }
+      }
+      mFilteredCourses = mTempList;
     }
+    return ListView.builder(
+        itemCount: mFilteredCourses.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
+            child: Card(
+              child: ListTile(
+                onTap: () {
+                  //Navigator.push(context, '\course', )
+                },
+                title: Text(mFilteredCourses[index].courseName),
+              ),
+            ),
+          );
+        });
   }
 
   bool containsKeyword(Course mCourse, String mKeyword) {
@@ -82,12 +92,14 @@ class _HomeScreenState extends State<HomeScreen> {
     mInstructorList.forEach((element) {
       mInstructors += element.toString().toLowerCase() + " ";
     });
-    String mConstraints = mCourseNameLowercase + " " + mInstructors;
-    for (var value in mConstraints.split(" ")) {
-      if (mConstraints.contains(value)) {
+    String mFilterPatterns = mCourseNameLowercase + " " + mInstructors;
+    for (var value in mKeyword.split(" ")) {
+      if (mFilterPatterns.contains(value)) {
+        print("CONTAINED $value");
         return true;
       }
     }
+
     return false;
   }
 }
