@@ -40,10 +40,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
     debugPrint(courseListJSON['AFRI010A AF-01 FA2021']['courseInstructors'][0]
         .toString());
     List<Course> listCourses = JSONToList(courseListJSON);
-    print(listCourses);
-    /*Navigator.pushReplacementNamed(context, '/home', arguments: {*/
-    /*  'listCourses': courseListJSON*/
-    /*});*/
+    Navigator.pushReplacementNamed(context, '/home',
+        arguments: {'listCourses': courseListJSON});
   }
 
   List<Course> JSONToList(Map courseListJSON) {
