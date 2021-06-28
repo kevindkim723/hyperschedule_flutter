@@ -76,7 +76,8 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Card(
               child: ListTile(
                 onTap: () {
-                  //Navigator.push(context, '\course', )
+                  Navigator.pushNamed(context, '/course',
+                      arguments: {'course': mFilteredCourses[index]});
                 },
                 title: Text(mFilteredCourses[index].courseName),
               ),
