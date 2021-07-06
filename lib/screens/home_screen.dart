@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:hyperschedule_flutter/services/Course.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -72,14 +73,40 @@ class _HomeScreenState extends State<HomeScreen> {
         itemCount: mFilteredCourses.length,
         itemBuilder: (context, index) {
           return Padding(
-            padding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
+            padding: EdgeInsets.symmetric(vertical: .5, horizontal: 4.0),
             child: Card(
-              child: ListTile(
+              child: InkWell(
                 onTap: () {
                   Navigator.pushNamed(context, '/course',
                       arguments: {'course': mFilteredCourses[index]});
                 },
-                title: Text(mFilteredCourses[index].courseName),
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
+                  color: Colors.red,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Column(
+                        children: <Widget>[
+                          Text(mFilteredCourses[index].courseCode),
+                          Text(mFilteredCourses[index].courseName),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            mFilteredCourses[index].courseSeats +
+                                " seats filled",
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           );
