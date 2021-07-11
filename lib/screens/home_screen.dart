@@ -81,25 +81,69 @@ class _HomeScreenState extends State<HomeScreen> {
                       arguments: {'course': mFilteredCourses[index]});
                 },
                 child: Container(
-                  padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
+                  padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                   color: Colors.red,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(mFilteredCourses[index].courseCode),
-                          Text(mFilteredCourses[index].courseName),
+                          Text(
+                            mFilteredCourses[index].courseCode,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 7,
+                          ),
+                          Text(
+                            mFilteredCourses[index].courseName,
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
                         ],
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              topLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                              bottomLeft: Radius.circular(10),
+                            ),
+                            child: Container(
+                              width: 70,
+                              color: (() {
+                                if (mFilteredCourses[index].courseStatus ==
+                                    "Open") {
+                                  return Colors.green;
+                                } else if (mFilteredCourses[index]
+                                        .courseStatus ==
+                                    "Reopened") {
+                                  return Colors.yellow;
+                                } else {
+                                  return Colors.pink;
+                                }
+                              }()),
+                              child: Center(
+                                child: Text(
+                                  mFilteredCourses[index].courseStatus,
+                                ),
+                              ),
+                            ),
+                          ),
                           Text(
                             mFilteredCourses[index].courseSeats +
                                 " seats filled",
                             style: TextStyle(
                               color: Colors.black,
+                              fontSize: 12,
                             ),
                           ),
                         ],
